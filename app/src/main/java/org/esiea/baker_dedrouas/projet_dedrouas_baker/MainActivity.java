@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,14 +24,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView rv = null;
     JSONArray list = null;
-    RecyclerSimpleViewAdapter adapter;
     AlertDialog.Builder builder = null;
+    Adapter adt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void demo(){
-        JSONObject list1 = new JSONObject();
-
-        for(int i = 0; i <50 ;++i){
+        for(int i = 0; i <50 ;i++){
             try {
+                JSONObject list1 = new JSONObject();
                 list1.put("Name", "Contact "+ i);
                 list1.put("Num",""+i);
                 list.put(list1);
@@ -84,8 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void chosen(View v){
+        Toast.makeText(this,"Meh !",Toast.LENGTH_SHORT);
+    }
+
     private void setAdapter(){
-        List<String> items = new ArrayList<String>();
+        ArrayAdapter<String> items = new ArrayAdapter<>(
+                rv.getContext(), R.layout.ligne, R.id.monTexte);
         for(int i = 0; i<list.length();++i){
             try {
                 JSONObject obj = (JSONObject)list.get(i);
@@ -94,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        adapter = new RecyclerSimpleViewAdapter(items, android.R.layout.simple_list_item_1);
-        rv.setAdapter(adapter);
+        adt = new Adapter(list);
+        rv.setAdapter(adt);
     }
 
     private void save(JSONArray tab){
@@ -114,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SecondActivity.class);
         startActivity(intent);
         getFromFile();
+        adt.setNewContact(getFromFile());
         finish();
     }
 
@@ -139,4 +146,48 @@ public class MainActivity extends AppCompatActivity {
             return new JSONArray();
         }
     }
+
+    private class Adapter extends RecyclerView.Adapter<Adapter.Holder>{
+        JSONArray contact;
+
+        public Adapter(JSONArray array){
+            this.contact = array;
+        }
+
+        @Override
+        public Adapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            return new Holder(inflater.inflate(R.layout.ligne, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(Adapter.Holder holder, int position) {
+            try {
+                holder.name.setText(list.getJSONObject(position).get("Name").toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.length();
+        }
+
+        public void setNewContact(JSONArray update){
+            list = update;
+            notifyDataSetChanged();
+        }
+
+        public class Holder extends RecyclerView.ViewHolder{
+            public TextView name;
+
+            public Holder(View itemView) {
+                super(itemView);
+                name = (TextView)itemView.findViewById(R.id.monTexte);
+            }
+        }
+    }
 }
+
