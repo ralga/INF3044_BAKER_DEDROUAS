@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Projet_DEDROUAS_BAKER</string>
+    <string name="name">Carnet de contacts</string>
+    <string name="add">Ajouter un contact</string>
+    <string name="load">Charger un contact</string>
+    <string name="nameC">Nom du contact</string>
+    <string name="dialog_message">A utiliser uniquement si la liste de contacts
+        n\'est pas mise a jour</string>
+    <string name="dialog_title">Attention</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="msg">Chargement ...</string>
+    <string name="noCt">JSON introuvable</string>
+    <string name="validate">Valider</string>
+    <string name="empty">Nom invalide</string>
+    <string name="num">Numéro</string>
+</resources>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Project_DEDROUAS_BAKER</string>
+    <string name="name">Contact manager</string>
+    <string name="add">Add a contact</string>
+    <string name="load">Load contacts</string>
+    <string name="nameC">Name</string>
+    <string name="dialog_message">Only use if the list is not updated</string>
+    <string name="dialog_title">Caution</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="msg">Loading ...</string>
+    <string name="noCt">JSON not found</string>
+    <string name="validate">Confirm</string>
+    <string name="empty">Invalid name</string>
+    <string name="num">Number</string>
+</resources>
